@@ -1,21 +1,20 @@
 package by.epam.inner.data.validators;
 
 import by.epam.inner.beans.Trial;
+import by.epam.inner.exceptions.EmptyJsonPropertyException;
 import by.epam.inner.exceptions.IncorrectAccountFormatException;
 import by.epam.inner.exceptions.IncorrectMarkException;
 import by.epam.inner.exceptions.TrialInitializeException;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class TrialValidator {
@@ -35,7 +34,7 @@ public class TrialValidator {
         return mark < 0 || mark > 100;
     }
 
-    protected final Trial trial;
+    private final Trial trial;
 
     public TrialValidator(Class<? extends Trial> trialClass) {
         try {
@@ -61,7 +60,9 @@ public class TrialValidator {
         } else if (jsonObject.size() > 2) {
             logger.warn("Json object has unexpected arguments.");
         }
-        JsonObject argsJson = jsonObject.get("args").getAsJsonObject();
+        JsonObject argsJson = Optional.ofNullable(jsonObject.get("args"))
+                .orElseThrow(() -> new JsonSyntaxException("Property 'args' not found."))
+                .getAsJsonObject();
 
         List<Field> fieldList = getFields(trial.getClass());
 
@@ -70,33 +71,46 @@ public class TrialValidator {
 
     protected void checkArgs(JsonElement element) {
         JsonObject argsJson = element.getAsJsonObject().get("args").getAsJsonObject();
-        String account = argsJson.get("account").getAsString();
+        String account = Optional.ofNullable(argsJson.get("account"))
+                .orElseThrow(() -> new EmptyJsonPropertyException("account"))
+                .getAsString();
         if (!ACCOUNT_PATTERN.matcher(account).find()) {
             throw new IncorrectAccountFormatException(account);
         }
-        int mark1 = argsJson.get("mark1").getAsInt();
-        int mark2 = argsJson.get("mark2").getAsInt();
+
+        int mark1 = Optional.ofNullable(argsJson.get("mark1"))
+                .orElseThrow(() -> new EmptyJsonPropertyException("mark1"))
+                .getAsInt();
+        int mark2 = Optional.ofNullable(argsJson.get("mark2"))
+                .orElseThrow(() -> new EmptyJsonPropertyException("mark2"))
+                .getAsInt();
+
         if (markCheck(mark1) || markCheck(mark2)) {
             throw new IncorrectMarkException();
         }
     }
 
-    protected void setArgs(Trial trial, JsonElement element) {
+    protected void setArgs(JsonElement element) {
         JsonObject argsJson = element.getAsJsonObject().get("args").getAsJsonObject();
+        Trial rowTrial = getRowTicket();
 
         String account = argsJson.get("account").getAsString();
         int mark1 = argsJson.get("mark1").getAsInt();
         int mark2 = argsJson.get("mark2").getAsInt();
 
-        trial.setAccount(account);
-        trial.setMark1(mark1);
-        trial.setMark2(mark2);
+        rowTrial.setAccount(account);
+        rowTrial.setMark1(mark1);
+        rowTrial.setMark2(mark2);
     }
 
     public Trial getValidTrial(JsonElement element) {
         checkSizeArgs(element);
         checkArgs(element);
-        setArgs(trial, element);
+        setArgs(element);
+        return getRowTicket();
+    }
+
+    protected Trial getRowTicket() {
         return trial;
     }
 }

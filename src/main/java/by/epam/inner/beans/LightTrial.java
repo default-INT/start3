@@ -7,9 +7,13 @@ public class LightTrial extends Trial {
     public LightTrial() {
     }
 
+    public LightTrial(LightTrial trial) {
+        super(trial);
+    }
+
     @Override
-    public LightTrial clone() {
-        return (LightTrial) super.clone();
+    public LightTrial copy() {
+        return new LightTrial(this);
     }
 
     @Override

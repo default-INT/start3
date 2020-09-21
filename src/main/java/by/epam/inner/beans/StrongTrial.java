@@ -5,9 +5,13 @@ public class StrongTrial extends Trial {
     public StrongTrial() {
     }
 
+    public StrongTrial(StrongTrial trial) {
+        super(trial);
+    }
+
     @Override
-    public StrongTrial clone() {
-        return (StrongTrial) super.clone();
+    public StrongTrial copy() {
+        return new StrongTrial(this);
     }
 
     @Override

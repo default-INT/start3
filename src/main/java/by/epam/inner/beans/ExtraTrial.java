@@ -7,12 +7,16 @@ public class ExtraTrial extends Trial {
     private int mark3;
 
     public ExtraTrial() {
+    }
 
+    public ExtraTrial(ExtraTrial extraTrial) {
+        super(extraTrial);
+        mark3 = extraTrial.mark3;
     }
 
     @Override
-    public ExtraTrial clone() {
-        return (ExtraTrial) super.clone();
+    public ExtraTrial copy() {
+        return new ExtraTrial(this);
     }
 
     @Override

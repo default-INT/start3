@@ -20,10 +20,10 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 public class Runner {
-    private static final ToIntFunction< Trial> summator = trial -> trial.getMark1() + trial.getMark2();
     private final static Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
+        final ToIntFunction< Trial> summator = trial -> trial.getMark1() + trial.getMark2();
 
         Type type = new TypeToken<List<JsonObject>>(){}.getType();
 
@@ -57,7 +57,7 @@ public class Runner {
             // Check whether all trials are failed (the result type is boolean).
             logger.info("Unpassed trials");
             List<Trial> unpassedTrials = trials.stream().filter(t -> !t.isResult())
-                    .map(Trial::clone)
+                    .map(Trial::copy)
                     .peek(Trial::clearMarks)
                     .peek(logger::info)
                     .collect(Collectors.toList());

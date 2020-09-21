@@ -2,12 +2,14 @@ package by.epam.inner.data.validators;
 
 import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.Trial;
+import by.epam.inner.exceptions.EmptyJsonPropertyException;
 import by.epam.inner.exceptions.IncorrectMarkException;
 import by.epam.inner.exceptions.TrialInitializeException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 public class ExtraTrialValidator extends TrialValidator {
 
@@ -15,34 +17,35 @@ public class ExtraTrialValidator extends TrialValidator {
 
     public ExtraTrialValidator(Class<ExtraTrial> trialClass) {
         super(trialClass);
-        try {
-            this.extraTrial = trialClass.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new TrialInitializeException(trialClass);
-        }
+        this.extraTrial = new ExtraTrial();
     }
 
     @Override
     protected void checkArgs(JsonElement element) {
         super.checkArgs(element);
-        int mark3 = element.getAsJsonObject().get("args")
-                .getAsJsonObject().get("mark3").getAsInt();
+        JsonObject jsonArgs = element.getAsJsonObject().get("args")
+                .getAsJsonObject();
+        int mark3 = Optional.ofNullable(jsonArgs.get("mark3"))
+                .orElseThrow(() -> new EmptyJsonPropertyException("mark3"))
+                .getAsInt();
         if (markCheck(mark3)) {
             throw new IncorrectMarkException();
         }
     }
 
-    protected void setArgs(ExtraTrial trial, JsonElement element) {
-        super.setArgs(trial, element);
-        JsonObject args = element.getAsJsonObject().get("args").getAsJsonObject();
-        extraTrial.setMark3(args.get("mark3").getAsInt());
+
+    @Override
+    protected void setArgs(JsonElement element) {
+        super.setArgs(element);
+        JsonObject argsJson = element.getAsJsonObject().get("args").getAsJsonObject();
+
+        int mark3 = argsJson.get("mark3").getAsInt();
+
+        getRowTicket().setMark3(mark3);
     }
 
     @Override
-    public ExtraTrial getValidTrial(JsonElement element) {
-        super.checkSizeArgs(element);
-        checkArgs(element);
-        setArgs(extraTrial, element);
+    protected ExtraTrial getRowTicket() {
         return extraTrial;
     }
 }

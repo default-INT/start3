@@ -1,14 +1,8 @@
 package by.epam.inner.beans;
 
-import by.epam.inner.exceptions.CloneException;
-import by.epam.inner.exceptions.IncorrectAccountFormatException;
-import by.epam.inner.exceptions.IncorrectMarkException;
-import com.google.gson.JsonObject;
-
 import java.util.Objects;
-import java.util.regex.Pattern;
 
-public class Trial implements Cloneable {
+public class Trial {
 
     protected final static int SCORE_THRESHOLD = 100;
 
@@ -20,6 +14,12 @@ public class Trial implements Cloneable {
 
     }
 
+    public Trial(Trial trial) {
+        account = trial.account;
+        mark1 = trial.mark1;
+        mark2 = trial.mark2;
+    }
+
     public void clearMarks() {
         mark1 = 0;
         mark2 = 0;
@@ -29,13 +29,8 @@ public class Trial implements Cloneable {
         return (getMark1() + getMark2()) >= SCORE_THRESHOLD;
     }
 
-    @Override
-    public Trial clone() { // Why not Cloneable???
-        try {
-            return (Trial) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new CloneException(e);
-        }
+    public Trial copy() {
+        return new Trial(this);
     }
 
     @Override

@@ -4,10 +4,8 @@ import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.LightTrial;
 import by.epam.inner.beans.StrongTrial;
 import by.epam.inner.beans.Trial;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import by.epam.inner.exceptions.EmptyJsonPropertyException;
+import com.google.gson.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +15,7 @@ import java.util.Optional;
 public final class TrialFactory {
 
     private static final TrialDeserializer TRIAL_DESERIALIZER = new TrialDeserializer();
+    private static final String PACKAGE_NAME = "by.epam.inner.beans.";
 
     private final static Logger logger = LogManager.getLogger();
     private final static Gson GSON = getGson();
@@ -34,12 +33,14 @@ public final class TrialFactory {
 
     public static Optional<Trial> getTrial(JsonObject trialJsonObj) {
         try {
-            Type trialType = Class.forName("by.epam.inner.beans." + trialJsonObj.get("class").getAsString());
+            JsonElement classProp = Optional.ofNullable(trialJsonObj.get("class"))
+                    .orElseThrow(() -> new EmptyJsonPropertyException("class"));
+            Type trialType = Class.forName(PACKAGE_NAME + classProp.getAsString());
             return Optional.of(GSON.fromJson(trialJsonObj, trialType));
         } catch (JsonSyntaxException e) {
             logger.error("Json have incorrect syntax " + e + "| JSON object: " + trialJsonObj);
             return Optional.empty();
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException e) {
             logger.error(e);
             return Optional.empty();
         } catch (ClassNotFoundException e) {

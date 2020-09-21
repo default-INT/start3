@@ -42,15 +42,6 @@ public class TrialDeserializer implements JsonDeserializer<Trial> {
 
         String trialKind = trialClass.replaceAll("([a-z])([A-Z]+)", "$1_$2")
                 .toUpperCase();
-        // method 2
-        //String trialKind = ((Class<? extends Trial>) type).getSimpleName().replaceAll("([a-z])([A-Z]+)", "$1_$2")
-        //        .toUpperCase();
-
-        // method 3
-        // String className = jsonElement.getAsJsonObject().get("class").getAsString();
-        // String trialKind = className.replaceAll("([a-z])([A-Z]+)", "$1_$2")
-        //        .toUpperCase();
-        // Which is better?
 
         return TrialKind.valueOf(trialKind).getTrial(jsonElement);
     }
