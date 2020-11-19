@@ -1,21 +1,18 @@
-package by.epam.inner.data.validators;
+package by.epam.inner.data.json.validators;
 
 import by.epam.inner.beans.ExtraTrial;
-import by.epam.inner.beans.Trial;
 import by.epam.inner.exceptions.EmptyJsonPropertyException;
 import by.epam.inner.exceptions.IncorrectMarkException;
-import by.epam.inner.exceptions.TrialInitializeException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
-public class ExtraTrialValidator extends TrialValidator {
+public class JsonExtraTrialValidator extends JsonTrialValidator {
 
     private final ExtraTrial extraTrial;
 
-    public ExtraTrialValidator(Class<ExtraTrial> trialClass) {
+    public JsonExtraTrialValidator(Class<ExtraTrial> trialClass) {
         super(trialClass);
         this.extraTrial = new ExtraTrial();
     }
@@ -28,7 +25,7 @@ public class ExtraTrialValidator extends TrialValidator {
         int mark3 = Optional.ofNullable(jsonArgs.get("mark3"))
                 .orElseThrow(() -> new EmptyJsonPropertyException("mark3"))
                 .getAsInt();
-        if (markCheck(mark3)) {
+        if (!markIsValid(mark3)) {
             throw new IncorrectMarkException();
         }
     }

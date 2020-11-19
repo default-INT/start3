@@ -61,4 +61,9 @@ public class ExtraTrial extends Trial {
                 "mark3: " + getMark3() +
                 "}";
     }
+
+    @Override
+    public String toCsv() {
+        return super.toCsv() + ";" + getMark3();
+    }
 }

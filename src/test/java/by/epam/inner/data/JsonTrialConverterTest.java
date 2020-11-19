@@ -4,18 +4,15 @@ import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.LightTrial;
 import by.epam.inner.beans.StrongTrial;
 import by.epam.inner.beans.Trial;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import by.epam.inner.data.json.JsonTrialConverter;
+import com.google.gson.*;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TrialDeserializerTest {
+public class JsonTrialConverterTest {
 
-    private static final TrialDeserializer TRIAL_DESERIALIZER = new TrialDeserializer();
+    private static final JsonTrialConverter TRIAL_DESERIALIZER = new JsonTrialConverter();
     private final static Gson GSON = getGson();
     private static final JsonObject TRIAL_JSON_CORRECT = getTrialJsonExampleCorrect();
 
@@ -40,6 +37,17 @@ public class TrialDeserializerTest {
         jsonObject.add("args", argsJson);
         return jsonObject;
     }
+
+    @Test
+    public void serialize() {
+        ExtraTrial trial = new ExtraTrial();
+        trial.setAccount("default");
+        trial.setMark1(43);
+        trial.setMark2(76);
+        trial.setMark3(54);
+        assertNotNull(GSON.toJson(trial, Trial.class));
+    }
+
 
     @Test
     public void deserialize() {

@@ -1,11 +1,11 @@
-package by.epam.inner.data.validators;
+package by.epam.inner.data.json.validators;
 
 import by.epam.inner.beans.Trial;
+import by.epam.inner.data.TrialValidator;
 import by.epam.inner.exceptions.EmptyJsonPropertyException;
 import by.epam.inner.exceptions.IncorrectAccountFormatException;
 import by.epam.inner.exceptions.IncorrectMarkException;
 import by.epam.inner.exceptions.TrialInitializeException;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -14,29 +14,16 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-public class TrialValidator {
-    private static final Logger logger = LogManager.getLogger();
-    private final static Pattern ACCOUNT_PATTERN = Pattern.compile("^[A-Za-z]([.A-Za-z0-9-]{1,18})([A-Za-z0-9])$");
-
-    private static List<Field> getFields(Class<?> type) {
-        List<Field> fields = new ArrayList<>();
-        if (!type.equals(Object.class)) {
-            fields.addAll(Arrays.asList(type.getDeclaredFields()));
-            fields.addAll(getFields(type.getSuperclass()));
-        }
-        return fields;
-    }
-
-    protected static boolean markCheck(int mark) {
-        return mark < 0 || mark > 100;
-    }
+public class JsonTrialValidator extends TrialValidator {
+    private static final Logger logger = LogManager.getLogger() ;
 
     private final Trial trial;
 
-    public TrialValidator(Class<? extends Trial> trialClass) {
+    public JsonTrialValidator(Class<? extends Trial> trialClass) {
         try {
             this.trial = trialClass.getConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -74,7 +61,8 @@ public class TrialValidator {
         String account = Optional.ofNullable(argsJson.get("account"))
                 .orElseThrow(() -> new EmptyJsonPropertyException("account"))
                 .getAsString();
-        if (!ACCOUNT_PATTERN.matcher(account).find()) {
+
+        if (!accountIsValid(account)) {
             throw new IncorrectAccountFormatException(account);
         }
 
@@ -85,7 +73,7 @@ public class TrialValidator {
                 .orElseThrow(() -> new EmptyJsonPropertyException("mark2"))
                 .getAsInt();
 
-        if (markCheck(mark1) || markCheck(mark2)) {
+        if (!markIsValid(mark1) || !markIsValid(mark2)) {
             throw new IncorrectMarkException();
         }
     }
@@ -110,6 +98,7 @@ public class TrialValidator {
         return getRowTicket();
     }
 
+    @Override
     protected Trial getRowTicket() {
         return trial;
     }

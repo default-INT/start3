@@ -1,4 +1,4 @@
-package by.epam.inner.data.validators;
+package by.epam.inner.data.json.validators;
 
 import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.exceptions.IncorrectMarkException;
@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ExtraTrialValidatorTest {
+public class JsonExtraTrialValidatorTest {
 
     private static final JsonObject TRIAL_JSON_MARK_EXCEPTION = getTrialJsonExampleMarkError();
     private static final JsonObject TRIAL_JSON_CORRECT = getTrialJsonExampleCorrect();
@@ -43,20 +43,20 @@ public class ExtraTrialValidatorTest {
     @Test
     public void checkArgsIncorrectMark() {
         assertThrows(IncorrectMarkException.class, () -> {
-            ExtraTrialValidator trialValidator = new ExtraTrialValidator(ExtraTrial.class);
+            JsonExtraTrialValidator trialValidator = new JsonExtraTrialValidator(ExtraTrial.class);
             trialValidator.checkArgs(TRIAL_JSON_MARK_EXCEPTION);
         });
     }
 
     @Test
     public void checkArgs() {
-        ExtraTrialValidator trialValidator = new ExtraTrialValidator(ExtraTrial.class);
+        JsonExtraTrialValidator trialValidator = new JsonExtraTrialValidator(ExtraTrial.class);
         trialValidator.checkArgs(TRIAL_JSON_CORRECT);
     }
 
     @Test
     public void setArgs() {
-        ExtraTrialValidator trialValidator = new ExtraTrialValidator(ExtraTrial.class);
+        JsonExtraTrialValidator trialValidator = new JsonExtraTrialValidator(ExtraTrial.class);
         assertNotNull(trialValidator.getValidTrial(TRIAL_JSON_CORRECT));
     }
 }

@@ -1,4 +1,4 @@
-package by.epam.inner.data.validators;
+package by.epam.inner.data.json.validators;
 
 import by.epam.inner.beans.Trial;
 import by.epam.inner.exceptions.IncorrectAccountFormatException;
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TrialValidatorTest {
+public class JsonTrialValidatorTest {
     private static final JsonObject TRIAL_JSON_ACCOUNT_EXCEPTION = getTrialJsonExampleLoginError();
     private static final JsonObject TRIAL_JSON_MARK_EXCEPTION = getTrialJsonExampleMarkError();
     private static final JsonObject TRIAL_JSON_CORRECT = getTrialJsonExampleCorrect();
@@ -53,48 +53,33 @@ public class TrialValidatorTest {
     }
 
     @Test
-    public void testMarkCheck() {
-        assertFalse(TrialValidator.markCheck(10));
-    }
-
-    @Test
-    public void testMarkCheckNegative() {
-        assertTrue(TrialValidator.markCheck(-10));
-    }
-
-    @Test
-    public void testMarkCheckOutOfRange() {
-        assertTrue(TrialValidator.markCheck(1000));
-    }
-
-    @Test
     public void testCheckArgsSuccessful() {
-        TrialValidator trialValidator = new TrialValidator(Trial.class);
-        trialValidator.checkArgs(TRIAL_JSON_CORRECT);
+        JsonTrialValidator jsonTrialValidator = new JsonTrialValidator(Trial.class);
+        jsonTrialValidator.checkArgs(TRIAL_JSON_CORRECT);
         assertTrue(true);
     }
 
     @Test
     public void testCheckArgsLoginException() {
         assertThrows(IncorrectAccountFormatException.class, () -> {
-            TrialValidator trialValidator = new TrialValidator(Trial.class);
-            trialValidator.checkArgs(TRIAL_JSON_ACCOUNT_EXCEPTION);
+            JsonTrialValidator jsonTrialValidator = new JsonTrialValidator(Trial.class);
+            jsonTrialValidator.checkArgs(TRIAL_JSON_ACCOUNT_EXCEPTION);
         });
     }
 
     @Test
     public void testCheckArgsMarkException() {
         assertThrows(IncorrectMarkException.class, () -> {
-            TrialValidator trialValidator = new TrialValidator(Trial.class);
-            trialValidator.checkArgs(TRIAL_JSON_MARK_EXCEPTION);
+            JsonTrialValidator jsonTrialValidator = new JsonTrialValidator(Trial.class);
+            jsonTrialValidator.checkArgs(TRIAL_JSON_MARK_EXCEPTION);
         });
     }
 
 
     @Test
     public void testGetValidTrial() {
-        TrialValidator trialValidator = new TrialValidator(Trial.class);
-        assertNotNull(trialValidator.getValidTrial(TRIAL_JSON_CORRECT));
+        JsonTrialValidator jsonTrialValidator = new JsonTrialValidator(Trial.class);
+        assertNotNull(jsonTrialValidator.getValidTrial(TRIAL_JSON_CORRECT));
 
     }
 }

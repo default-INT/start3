@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>by.epam.inner</groupId>
-  <artifactId>start3</artifactId>
+  <artifactId>threads1</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <name>start3</name>

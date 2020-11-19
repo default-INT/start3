@@ -87,4 +87,8 @@ public class Trial {
     public int getMark2() {
         return mark2;
     }
+
+    public String toCsv() {
+        return this.getClass().getSimpleName() + ";" + getAccount() + ";" + getMark1() + ";" + getMark2();
+    }
 }
