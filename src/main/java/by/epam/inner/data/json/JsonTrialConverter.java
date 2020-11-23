@@ -4,8 +4,6 @@ import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.LightTrial;
 import by.epam.inner.beans.StrongTrial;
 import by.epam.inner.beans.Trial;
-import by.epam.inner.data.json.validators.JsonExtraTrialValidator;
-import by.epam.inner.data.json.validators.JsonTrialValidator;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -49,7 +47,6 @@ public class JsonTrialConverter implements JsonDeserializer<Trial>, JsonSerializ
     @Override
     public Trial deserialize(JsonElement jsonElement, Type type,
                              JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-
         // method 1
         String[] trialsPackage = type.getTypeName().split("\\.");
         String trialClass = trialsPackage[trialsPackage.length - 1];

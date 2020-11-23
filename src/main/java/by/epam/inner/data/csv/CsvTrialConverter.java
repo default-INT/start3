@@ -4,8 +4,6 @@ import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.LightTrial;
 import by.epam.inner.beans.StrongTrial;
 import by.epam.inner.beans.Trial;
-import by.epam.inner.data.csv.validators.CsvExtraTrialValidator;
-import by.epam.inner.data.csv.validators.CsvTrialValidator;
 
 import java.lang.reflect.Type;
 
@@ -38,6 +36,6 @@ public class CsvTrialConverter {
     }
 
     public String toCsv(Trial trial) {
-        return trial.toCsv();
+        return trial.toCsv() + "\n";
     }
 }

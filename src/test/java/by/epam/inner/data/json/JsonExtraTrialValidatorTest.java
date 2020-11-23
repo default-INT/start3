@@ -1,11 +1,12 @@
-package by.epam.inner.data.json.validators;
+package by.epam.inner.data.json;
 
 import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.exceptions.IncorrectMarkException;
 import com.google.gson.JsonObject;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 
 public class JsonExtraTrialValidatorTest {
 

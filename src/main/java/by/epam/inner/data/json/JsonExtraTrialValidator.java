@@ -1,4 +1,4 @@
-package by.epam.inner.data.json.validators;
+package by.epam.inner.data.json;
 
 import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.exceptions.EmptyJsonPropertyException;
@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 
 import java.util.Optional;
 
-public class JsonExtraTrialValidator extends JsonTrialValidator {
+class JsonExtraTrialValidator extends JsonTrialValidator {
 
     private final ExtraTrial extraTrial;
 
@@ -38,11 +38,11 @@ public class JsonExtraTrialValidator extends JsonTrialValidator {
 
         int mark3 = argsJson.get("mark3").getAsInt();
 
-        getRowTicket().setMark3(mark3);
+        extraTrial.setMark3(mark3);
     }
 
     @Override
-    protected ExtraTrial getRowTicket() {
+    protected ExtraTrial getRowTrial() {
         return extraTrial;
     }
 }

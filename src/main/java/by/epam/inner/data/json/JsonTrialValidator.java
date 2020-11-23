@@ -1,11 +1,10 @@
-package by.epam.inner.data.json.validators;
+package by.epam.inner.data.json;
 
 import by.epam.inner.beans.Trial;
 import by.epam.inner.data.TrialValidator;
 import by.epam.inner.exceptions.EmptyJsonPropertyException;
 import by.epam.inner.exceptions.IncorrectAccountFormatException;
 import by.epam.inner.exceptions.IncorrectMarkException;
-import by.epam.inner.exceptions.TrialInitializeException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -13,22 +12,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class JsonTrialValidator extends TrialValidator {
+class JsonTrialValidator extends TrialValidator {
     private static final Logger logger = LogManager.getLogger() ;
 
-    private final Trial trial;
-
     public JsonTrialValidator(Class<? extends Trial> trialClass) {
-        try {
-            this.trial = trialClass.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new TrialInitializeException(trialClass);
-        }
+        super(trialClass);
     }
 
     private void propertyCheck(Map.Entry<String, JsonElement> entry, List<Field> fieldList) {
@@ -51,7 +43,7 @@ public class JsonTrialValidator extends TrialValidator {
                 .orElseThrow(() -> new JsonSyntaxException("Property 'args' not found."))
                 .getAsJsonObject();
 
-        List<Field> fieldList = getFields(trial.getClass());
+        List<Field> fieldList = getFields(getRowTrial().getClass());
 
         argsJson.entrySet().forEach(entry -> propertyCheck(entry, fieldList));
     }
@@ -80,7 +72,7 @@ public class JsonTrialValidator extends TrialValidator {
 
     protected void setArgs(JsonElement element) {
         JsonObject argsJson = element.getAsJsonObject().get("args").getAsJsonObject();
-        Trial rowTrial = getRowTicket();
+        Trial rowTrial = getRowTrial();
 
         String account = argsJson.get("account").getAsString();
         int mark1 = argsJson.get("mark1").getAsInt();
@@ -95,11 +87,7 @@ public class JsonTrialValidator extends TrialValidator {
         checkSizeArgs(element);
         checkArgs(element);
         setArgs(element);
-        return getRowTicket();
-    }
-
-    @Override
-    protected Trial getRowTicket() {
+        Trial trial = getRowTrial();
         return trial;
     }
 }

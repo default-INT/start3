@@ -50,7 +50,7 @@
       "account":"danil.deckker",
       "mark1": 92,
       "mark2": 90,
-      "mark3": 2.5
+      "mark3": 25
     }
   },
   {
@@ -74,9 +74,9 @@
     "class": "ExtraTrial",
     "args": {
       "account":"danil.lipsky",
-      "mark1": 10,
-      "mark2": 12,
-      "mark3": 15
+      "mark1": 64,
+      "mark2": 47,
+      "mark3": 53
     }
   },
   {
@@ -111,8 +111,5 @@
       "mark2": 12654,
       "mark3": 15435
     }
-  },
-  {
-
   }
 ]

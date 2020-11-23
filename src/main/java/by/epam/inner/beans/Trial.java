@@ -58,9 +58,9 @@ public class Trial {
 
     protected String argsToString() {
         return "args: {" +
-                "account: \"" + account + "\", " +
-                "mark1: " + mark1 + ", " +
-                "mark2: " + mark2 +
+                "account: \"" + getAccount() + "\", " +
+                "mark1: " + getMark1() + ", " +
+                "mark2: " + getMark2() +
                 "}";
     }
 
@@ -77,7 +77,7 @@ public class Trial {
     }
 
     public String getAccount() {
-        return account;
+        return new String(account);
     }
 
     public int getMark1() {

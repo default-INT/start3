@@ -1,28 +1,24 @@
-package by.epam.inner.data.csv.validators;
+package by.epam.inner.data.csv;
 
 import by.epam.inner.beans.Trial;
 import by.epam.inner.data.TrialValidator;
-import by.epam.inner.exceptions.*;
+import by.epam.inner.exceptions.EmptyJsonPropertyException;
+import by.epam.inner.exceptions.IncorrectAccountFormatException;
+import by.epam.inner.exceptions.IncorrectCsvFormatException;
+import by.epam.inner.exceptions.IncorrectMarkException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class CsvTrialValidator extends TrialValidator {
+class CsvTrialValidator extends TrialValidator {
     private static final Logger logger = LogManager.getLogger();
 
     protected static final String DELIMITER = ";";
 
-    private final Trial trial;
-
     public CsvTrialValidator(Class<? extends Trial> trialClass) {
-        try {
-            trial = trialClass.getConstructor().newInstance();
-        }  catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new TrialInitializeException(trialClass);
-        }
+        super(trialClass);
     }
 
     protected void checkSizeArgs(String csv, int maxSize) {
@@ -63,7 +59,7 @@ public class CsvTrialValidator extends TrialValidator {
 
     protected void setArgs(String csv) {
         String[] csvArgs = csv.split(DELIMITER);
-        Trial trial = getRowTicket();
+        Trial trial = getRowTrial();
 
         String account = csvArgs[1];
         int mark1 = Integer.parseInt(csvArgs[2]);
@@ -78,11 +74,7 @@ public class CsvTrialValidator extends TrialValidator {
         checkSizeArgs(csv);
         checkArgs(csv);
         setArgs(csv);
-        return trial;
+        return getRowTrial();
     }
 
-    @Override
-    protected Trial getRowTicket() {
-        return trial;
-    }
 }

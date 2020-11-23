@@ -1,17 +1,32 @@
 package by.epam.inner.data;
 
 import by.epam.inner.beans.Trial;
+import by.epam.inner.exceptions.TrialInitializeException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public abstract class TrialValidator {
-    protected final static Pattern ACCOUNT_PATTERN = Pattern.compile("^[A-Za-z]([.A-Za-z0-9-]{1,18})([A-Za-z0-9])$");
+    protected final static Pattern ACCOUNT_PATTERN = Pattern.compile("^[A-Za-z]([.A-Za-z0-9-_]{1,18})([A-Za-z0-9])$");
 
-    protected abstract Trial getRowTicket();
+    private final Trial trial;
+
+    public TrialValidator(Class<? extends Trial> trialClass) {
+        try {
+            this.trial = trialClass.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new TrialInitializeException(trialClass);
+        }
+    }
+
+
+    protected Trial getRowTrial() {
+        return trial;
+    }
 
     protected static boolean markIsValid(int mark) {
         return mark > 0 && mark < 100;

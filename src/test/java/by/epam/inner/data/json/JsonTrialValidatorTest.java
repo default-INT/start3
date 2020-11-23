@@ -1,6 +1,7 @@
-package by.epam.inner.data.json.validators;
+package by.epam.inner.data.json;
 
 import by.epam.inner.beans.Trial;
+import by.epam.inner.data.json.JsonTrialValidator;
 import by.epam.inner.exceptions.IncorrectAccountFormatException;
 import by.epam.inner.exceptions.IncorrectMarkException;
 import com.google.gson.JsonObject;

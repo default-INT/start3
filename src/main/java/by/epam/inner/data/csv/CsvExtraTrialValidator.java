@@ -1,4 +1,4 @@
-package by.epam.inner.data.csv.validators;
+package by.epam.inner.data.csv;
 
 import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.Trial;
@@ -7,7 +7,7 @@ import by.epam.inner.exceptions.IncorrectMarkException;
 
 import java.util.Optional;
 
-public class CsvExtraTrialValidator extends CsvTrialValidator {
+class CsvExtraTrialValidator extends CsvTrialValidator {
 
     private final ExtraTrial extraTrial;
 
@@ -36,11 +36,11 @@ public class CsvExtraTrialValidator extends CsvTrialValidator {
         super.setArgs(csv);
         int mark3 = Integer.parseInt(csv.split(DELIMITER)[4]);
 
-        getRowTicket().setMark3(mark3);
+        getRowTrial().setMark3(mark3);
     }
 
     @Override
-    protected ExtraTrial getRowTicket() {
+    protected ExtraTrial getRowTrial() {
         return extraTrial;
     }
 }
