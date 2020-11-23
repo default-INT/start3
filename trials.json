@@ -1,0 +1,115 @@
+[
+  {
+    "class": "Trial",
+    "args": {
+      "account":"default",
+      "mark1": 80,
+      "mark2": 95
+    }
+  },
+  {
+    "class": "Trial",
+    "args": {
+      "account":"evgeniy.trofimov",
+      "mark1": 80,
+      "mark2": 95,
+      "mark3": 55
+    }
+  },
+  {
+    "class": "LightTrial",
+    "args": {
+      "account":"evgeniy.trofimov",
+      "mark1": 70,
+      "mark2": 25
+    },
+    "mistakeArg": "undefined"
+  },
+  {
+    "class": "StrongTrial",
+    "args": {
+      "mistakeArg": "undefined",
+      "account":"igor.ropot",
+      "mark1": 70,
+      "mark2": 90
+    }
+  },
+  {
+    "class": "ExtraTrial",
+    "mistakeArg": "undefined",
+    "args": {
+      "account":"danil.deckker",
+      "mark1": 70,
+      "mark2": 90,
+      "mark3": 90
+    }
+  },
+  {
+    "class": "ExtraTrial",
+    "args": {
+      "account":"danil.deckker",
+      "mark1": 92,
+      "mark2": 90,
+      "mark3": 25
+    }
+  },
+  {
+    "class": "ExtraTrial",
+    "args": {
+      "account":"danil.lipsky",
+      "mark1": 92,
+      "mark2": 90
+    }
+  },
+  {
+    "class": "ExtraTrial",
+    "args": {
+      "account":"danil.lipsky",
+      "mark1": 10,
+      "mark2": 12,
+      "mark3": 15
+    }
+  },
+  {
+    "class": "ExtraTrial",
+    "args": {
+      "account":"danil.lipsky",
+      "mark1": 64,
+      "mark2": 47,
+      "mark3": 53
+    }
+  },
+  {
+    "class": "ExtraTrial",
+    "args": {
+      "account":"danil.lipsky"
+    }
+  },
+  {
+    "class": "ExtraTrial",
+    "args": {
+      "account":"445435",
+      "mark1": 10,
+      "mark2": 12,
+      "mark3": 15
+    }
+  },
+  {
+    "class": "Trial",
+    "args": {
+      "account":"correctLogin",
+      "mark1": 10,
+      "mark2": 12,
+      "mark3": 15
+    }
+  },
+  {
+    "class": "Trials",
+    "args": {
+      "account":"correctLogin",
+      "mark1": 126,
+      "mark2": 12654,
+      "mark3": 15435
+    }
+  }
+]

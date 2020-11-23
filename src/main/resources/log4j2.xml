@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+    <Properties>
+        <Property name="LOG_DIR">logs</Property>
+        <Property name="FILE_LOGGER_PATH">${LOG_DIR}/app-logs.log</Property>
+        <Property name="pattern_console" >[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{10} - %msg | %r ms %n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="${pattern_console}" />
+        </Console>
+        <RollingFile name="fileLogger" fileName="${FILE_LOGGER_PATH}" filePattern="${FILE_LOGGER_PATH}/app-info-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>${pattern_console}</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="fileLogger" />
+        </Root>
+    </Loggers>
+</Configuration>
