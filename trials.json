@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 [
   {
     "class": "Trial",
@@ -116,3 +117,6 @@
 
   }
 ]
+=======
+[{"class":"Trial","args":{"account":"new_db_default","mark1":47,"mark2":74}},{"class":"Trial","args":{"account":"vladislav_yarmak","mark1":64,"mark2":54}},{"class":"Trial","args":{"account":"egor_piskyn","mark1":72,"mark2":61}},{"class":"Trial","args":{"account":"danil_semenov","mark1":27,"mark2":41}},{"class":"Trial","args":{"account":"semen_stolny","mark1":67,"mark2":81}},{"class":"Trial","args":{"account":"danil_lipsky","mark1":27,"mark2":51}},{"class":"Trial","args":{"account":"igor_ropot","mark1":70,"mark2":94}},{"class":"Trial","args":{"mark3":87,"account":"igor_ropot","mark1":70,"mark2":94}}]
+>>>>>>> Stashed changes

@@ -8,22 +8,23 @@ import by.epam.inner.data.csv.validators.CsvExtraTrialValidator;
 import by.epam.inner.data.csv.validators.CsvTrialValidator;
 
 import java.lang.reflect.Type;
+import java.util.function.Supplier;
 
 public class CsvTrialConverter {
     private enum TrialKind {
-        TRIAL(new CsvTrialValidator(Trial.class)),
-        LIGHT_TRIAL(new CsvTrialValidator(LightTrial.class)),
-        STRONG_TRIAL(new CsvTrialValidator(StrongTrial.class)),
-        EXTRA_TRIAL(new CsvExtraTrialValidator(ExtraTrial.class));
+        TRIAL(() -> new CsvTrialValidator(Trial.class)),
+        LIGHT_TRIAL(() -> new CsvTrialValidator(LightTrial.class)),
+        STRONG_TRIAL(() -> new CsvTrialValidator(StrongTrial.class)),
+        EXTRA_TRIAL(() -> new CsvExtraTrialValidator(ExtraTrial.class));
 
-        private final CsvTrialValidator validator;
+        private final Supplier<CsvTrialValidator> validator;
 
-        TrialKind(CsvTrialValidator validator) {
+        TrialKind(Supplier<CsvTrialValidator> validator) {
             this.validator = validator;
         }
 
         public Trial getTrial(String csv) {
-            return validator.getValidTrial(csv);
+            return validator.get().getValidTrial(csv);
         }
     }
 

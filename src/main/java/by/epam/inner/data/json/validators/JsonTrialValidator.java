@@ -13,15 +13,30 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
+<<<<<<< Updated upstream:src/main/java/by/epam/inner/data/json/validators/JsonTrialValidator.java
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+=======
+import java.util.*;
+>>>>>>> Stashed changes:src/main/java/by/epam/inner/data/json/JsonTrialValidator.java
 
 public class JsonTrialValidator extends TrialValidator {
     private static final Logger logger = LogManager.getLogger() ;
 
+<<<<<<< Updated upstream:src/main/java/by/epam/inner/data/json/validators/JsonTrialValidator.java
     private final Trial trial;
+=======
+    private static List<Field> getFields(Class<?> type) {
+        List<Field> fields = new ArrayList<>();
+        if (!type.equals(Object.class)) {
+            fields.addAll(Arrays.asList(type.getDeclaredFields()));
+            fields.addAll(getFields(type.getSuperclass()));
+        }
+        return fields;
+    }
+>>>>>>> Stashed changes:src/main/java/by/epam/inner/data/json/JsonTrialValidator.java
 
     public JsonTrialValidator(Class<? extends Trial> trialClass) {
         try {
@@ -95,11 +110,15 @@ public class JsonTrialValidator extends TrialValidator {
         checkSizeArgs(element);
         checkArgs(element);
         setArgs(element);
+<<<<<<< Updated upstream:src/main/java/by/epam/inner/data/json/validators/JsonTrialValidator.java
         return getRowTicket();
     }
 
     @Override
     protected Trial getRowTicket() {
         return trial;
+=======
+        return getRowTrial();
+>>>>>>> Stashed changes:src/main/java/by/epam/inner/data/json/JsonTrialValidator.java
     }
 }

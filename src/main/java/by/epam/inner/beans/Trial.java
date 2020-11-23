@@ -48,6 +48,8 @@ public class Trial {
         return Objects.hash(account, mark1, mark2);
     }
 
+    public int getLink() {return super.hashCode();}
+
     @Override
     public String toString() {
         return "{" +

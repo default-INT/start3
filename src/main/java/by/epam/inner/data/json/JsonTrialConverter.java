@@ -9,23 +9,24 @@ import by.epam.inner.data.json.validators.JsonTrialValidator;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
+import java.util.function.Supplier;
 
 public class JsonTrialConverter implements JsonDeserializer<Trial>, JsonSerializer<Trial> {
 
     private enum TrialKind {
-        TRIAL(new JsonTrialValidator(Trial.class)),
-        LIGHT_TRIAL(new JsonTrialValidator(LightTrial.class)),
-        STRONG_TRIAL(new JsonTrialValidator(StrongTrial.class)),
-        EXTRA_TRIAL(new JsonExtraTrialValidator(ExtraTrial.class));
+        TRIAL(() -> new JsonTrialValidator(Trial.class)),
+        LIGHT_TRIAL(() -> new JsonTrialValidator(LightTrial.class)),
+        STRONG_TRIAL(() -> new JsonTrialValidator(StrongTrial.class)),
+        EXTRA_TRIAL(() -> new JsonExtraTrialValidator(ExtraTrial.class));
 
-        private final JsonTrialValidator validator;
+        private final Supplier<JsonTrialValidator> validatorGetter;
 
-        TrialKind(JsonTrialValidator validator) {
-            this.validator = validator;
+        TrialKind(Supplier<JsonTrialValidator> validator) {
+            this.validatorGetter = validator;
         }
 
         public Trial getTrial(JsonElement element) {
-            return validator.getValidTrial(element);
+            return validatorGetter.get().getValidTrial(element);
         }
     }
 
@@ -40,7 +41,7 @@ public class JsonTrialConverter implements JsonDeserializer<Trial>, JsonSerializ
         JsonObject trialJsonObject = new JsonObject();
         trialJsonObject.addProperty("class", trialClass);
 
-        JsonElement argsJsonObject = DEFAULT_GSON.toJsonTree(trial, type);
+        JsonElement argsJsonObject = DEFAULT_GSON.toJsonTree(trial, trial.getClass());
         trialJsonObject.add("args", argsJsonObject);
 
         return trialJsonObject;
